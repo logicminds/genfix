@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+
+require 'trollop'
+
+p = Trollop::Parser.new do
+  version "0.1.0 (c) Corey Osman"
+  banner <<-EOS
+Gemfix is a small utility that will bring all the types of puppet module dependencies together into a single entity.
+
+
+  EOS
+  opt :module_path, "The path (relative or absolute) to the module directory (Defaults to current directory) " ,
+      :type => :string, :required => false, :default => Dir.pwd
+  opt :write_fixtures_file, "Generate and write to puppetlabs spec helper fixtures file", :type => :bool, :require => false
+  opt :display_fixtures_data, "Display puppetlabs spec helper fixtures file", :type => :bool, :require => false
+
+end
+opts = Trollop::with_standard_exception_handling p do
+  raise Trollop::HelpNeeded if ARGV.empty? # show help screen
+  p.parse ARGV
+end
+
+require 'genfix'
+require 'genfix/adapters/fixtures'
+list = Genfix.merged_list(opts[:module_path])
+
+if opts[:write_fixtures_file]
+  Genfix::Adapters::FixturesAdapter.write_to_source(list, opts[:module_path])
+elsif
+  puts Genfix::Adapters::FixturesAdapter.to_source_format(list, opts[:module_path])
+end
+
+

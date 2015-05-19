@@ -14,11 +14,12 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
+  gem.files = Dir.glob(['lib/**/*.rb', 'bin/*', 'README.md', 'VERSION', 'genfix.gemspec'])
   gem.name = "genfix"
   gem.homepage = "http://github.com/logicminds/genfix"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Gemfix is a small utility that will bring all the types of puppet module dependencies together into a single entity}
+  gem.description = %Q{Gemfix is a small utility that will bring all the types of puppet module dependencies together into a single entity}
   gem.email = "corey@logicminds.biz"
   gem.authors = ["Corey Osman"]
   # dependencies defined in Gemfile
@@ -28,7 +29,7 @@ Jeweler::RubygemsDotOrgTasks.new
 require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.pattern = FileList['spec/**/*_spec.rb']
+  spec.pattern = FileList['spec/*_spec.rb', 'spec/adapters/*_spec.rb']
 end
 
 desc "Code coverage detail"
